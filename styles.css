@@ -8,7 +8,10 @@
 /* CSS 變數 - 品牌色彩 */
 :root {
     --primary-color: #052C4E;
+    --primary-color-light: #0a4a7a;
+    --primary-color-lighter: #1e5a8e;
     --accent-color: #E9B000;
+    --accent-color-hover: #ffc107;
     --text-dark: #1a1a1a;
     --text-light: #ffffff;
     --bg-light: #f8f9fa;
@@ -94,67 +97,202 @@ body {
 
 /* Hero 區塊 */
 .hero {
-    background: linear-gradient(135deg, var(--primary-color) 0%, #0a4a7a 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-light) 50%, var(--primary-color-lighter) 100%);
     color: var(--text-light);
-    padding: 8rem 0;
+    padding: 10rem 0;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 動態背景效果 */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(233, 176, 0, 0.1) 0%, transparent 70%);
+    animation: rotate 20s linear infinite;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    background: linear-gradient(to bottom, transparent, rgba(5, 44, 78, 0.3)); /* Matches primary-color with alpha */
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 裝飾性背景元素 */
+.hero-bg-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+.hero-bg-shapes .shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+    animation: float 20s infinite ease-in-out;
+}
+
+.hero-bg-shapes .shape:nth-child(1) {
+    width: 300px;
+    height: 300px;
+    background: var(--accent-color);
+    top: 10%;
+    left: 5%;
+    animation-delay: 0s;
+}
+
+.hero-bg-shapes .shape:nth-child(2) {
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.3);
+    top: 60%;
+    right: 10%;
+    animation-delay: 3s;
+}
+
+.hero-bg-shapes .shape:nth-child(3) {
+    width: 150px;
+    height: 150px;
+    background: var(--accent-color);
+    bottom: 15%;
+    left: 15%;
+    animation-delay: 6s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+    }
+    33% {
+        transform: translateY(-30px) translateX(20px);
+    }
+    66% {
+        transform: translateY(20px) translateX(-20px);
+    }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
 }
 
 .hero-title {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    font-weight: 700;
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    animation: fadeInUp 1s ease-out;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .hero-subtitle {
-    font-size: 1.25rem;
-    margin-bottom: 2rem;
+    font-size: 1.35rem;
+    margin-bottom: 3rem;
     opacity: 0.95;
-    max-width: 700px;
+    max-width: 750px;
     margin-left: auto;
     margin-right: auto;
+    line-height: 1.8;
+    animation: fadeInUp 1s ease-out 0.3s both;
 }
 
 .hero-buttons {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     justify-content: center;
     flex-wrap: wrap;
+    animation: fadeInUp 1s ease-out 0.6s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* 按鈕樣式 */
 .btn {
     display: inline-block;
-    padding: 0.875rem 2rem;
-    border-radius: 6px;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
     transition: var(--transition);
     border: 2px solid transparent;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 1.1rem;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: left 0.5s ease;
+    z-index: -1;
+}
+
+.btn:hover::before {
+    left: 100%;
 }
 
 .btn-primary {
     background-color: var(--accent-color);
     color: var(--primary-color);
+    box-shadow: 0 4px 15px rgba(233, 176, 0, 0.4);
 }
 
 .btn-primary:hover {
-    background-color: #d4a000;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
+    background-color: var(--accent-color-hover);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(233, 176, 0, 0.6);
 }
 
 .btn-secondary {
     background-color: transparent;
     color: var(--text-light);
     border-color: var(--text-light);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
 }
 
 .btn-secondary:hover {
     background-color: var(--text-light);
     color: var(--primary-color);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.4);
 }
 
 /* 功能特色區塊 */
@@ -580,12 +718,41 @@ body {
         display: flex;
     }
 
+    .hero {
+        padding: 6rem 0;
+    }
+
     .hero-title {
-        font-size: 2rem;
+        font-size: 2.5rem;
     }
 
     .hero-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+
+    .hero-buttons {
+        gap: 1rem;
+    }
+
+    .btn {
+        padding: 0.875rem 2rem;
         font-size: 1rem;
+    }
+
+    .hero-bg-shapes .shape:nth-child(1) {
+        width: 200px;
+        height: 200px;
+    }
+
+    .hero-bg-shapes .shape:nth-child(2) {
+        width: 150px;
+        height: 150px;
+    }
+
+    .hero-bg-shapes .shape:nth-child(3) {
+        width: 100px;
+        height: 100px;
     }
 
     .section-title {
@@ -612,7 +779,23 @@ body {
     }
 
     .hero-title {
-        font-size: 1.75rem;
+        font-size: 2rem;
+        letter-spacing: -0.3px;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+        padding: 0 1rem;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
     }
 
     .page-header h1 {
@@ -625,5 +808,34 @@ body {
 
     .stats-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* 減少動畫效果（適用於偏好減少動作的用戶） */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .hero::before {
+        animation: none;
+    }
+    
+    .hero-bg-shapes .shape {
+        animation: none;
+    }
+    
+    .hero-title,
+    .hero-subtitle,
+    .hero-buttons {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+    
+    .btn:hover {
+        transform: none;
     }
 }
