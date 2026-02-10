@@ -8,7 +8,10 @@
 /* CSS 變數 - 品牌色彩 */
 :root {
     --primary-color: #052C4E;
+    --primary-color-light: #0a4a7a;
+    --primary-color-lighter: #1e5a8e;
     --accent-color: #E9B000;
+    --accent-color-hover: #ffc107;
     --text-dark: #1a1a1a;
     --text-light: #ffffff;
     --bg-light: #f8f9fa;
@@ -94,7 +97,7 @@ body {
 
 /* Hero 區塊 */
 .hero {
-    background: linear-gradient(135deg, #052C4E 0%, #0a4a7a 50%, #1e5a8e 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-light) 50%, var(--primary-color-lighter) 100%);
     color: var(--text-light);
     padding: 10rem 0;
     text-align: center;
@@ -121,7 +124,7 @@ body {
     left: 0;
     right: 0;
     height: 150px;
-    background: linear-gradient(to bottom, transparent, rgba(5, 44, 78, 0.3));
+    background: linear-gradient(to bottom, transparent, rgba(5, 44, 78, 0.3)); /* Matches primary-color with alpha */
 }
 
 @keyframes rotate {
@@ -273,7 +276,7 @@ body {
 }
 
 .btn-primary:hover {
-    background-color: #ffc107;
+    background-color: var(--accent-color-hover);
     transform: translateY(-3px) scale(1.05);
     box-shadow: 0 8px 25px rgba(233, 176, 0, 0.6);
 }
@@ -805,5 +808,34 @@ body {
 
     .stats-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* 減少動畫效果（適用於偏好減少動作的用戶） */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .hero::before {
+        animation: none;
+    }
+    
+    .hero-bg-shapes .shape {
+        animation: none;
+    }
+    
+    .hero-title,
+    .hero-subtitle,
+    .hero-buttons {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+    
+    .btn:hover {
+        transform: none;
     }
 }
